@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Hangman App</string>
+    <string name="secret_word">guess</string>
 </resources>
