@@ -1,5 +1,6 @@
 package com.example.hangmanapp
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.hangmanapp.databinding.FragmentAnimationBinding
+import android.widget.Toast
+import androidx.fragment.app.setFragmentResultListener
 
 class animationFragment : Fragment() {
     private lateinit var binding: FragmentAnimationBinding
@@ -44,13 +47,41 @@ class animationFragment : Fragment() {
             }
         }
 
+        setFragmentResultListener("requestKey") { requestKey, bundle ->
+            // We use a String here, but any type that can be put in a Bundle is supported
+            val result = bundle.getString("bundleKey")
+            // Do something with the result
+            Toast.makeText(activity, result, Toast.LENGTH_SHORT).show()
+
+        }
+//        val view = inflater.inflate(R.layout.fragment_animation, container, false)
+        var image : ImageView = view.findViewById<ImageView>(R.id.hangman_image)
+        image.setOnClickListener {
+            Toast.makeText(activity, "Animation fragment clicked", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle()
+            bundle.putString("message", "Hello from KeyboardFragment")
+
+        }
+
         return view
     }
 
+//        setFragmentResultListener("requestKey") { requestKey, bundle ->
+            // We use a String here, but any type that can be put in a Bundle is supported
+//            val result = bundle.getString("bundleKey")
+            // Do something with the result
+//        }
+
+
+
+//        return view
+
+//    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        animationViewModel = ViewModelProvider(this).get(AnimationViewModel::class.java)
-
+//        viewModel = ViewModelProvider(this).get(KeyboardViewModel::class.java)
+        // TODO: Use the ViewModel
     }
 
     fun guess() {

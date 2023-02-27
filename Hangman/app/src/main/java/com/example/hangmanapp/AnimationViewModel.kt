@@ -37,33 +37,33 @@ class AnimationViewModel() : ViewModel() {
     /**
      * supposed to get the letter from keyboard fragment
      */
-    fun inputLetter(input : String) : Boolean{
-        var letter = input
-
-        // if player choose a correct letter, put it into 'correctLetter'
-        // and refresh the display
-        if(letter in answer.lowercase()){
-            correctLetters.add(letter)
-            updateDisplay()
-
-        }
-        else{
-            // wrong guess
-
-            // Player fails
-            image_idx++
-
-            return false
-        }
-
-        // win this round
-        if(checkIfWin()){
-            updateAnswer()
-            updateDisplay()
-            return true
-        }
-
-    }
+//    fun inputLetter(input : String) : Boolean{
+//        var letter = input
+//
+//        // if player choose a correct letter, put it into 'correctLetter'
+//        // and refresh the display
+//        if(letter in answer.lowercase()){
+//            correctLetters.add(letter)
+//            updateDisplay()
+//
+//        }
+//        else{
+//            // wrong guess
+//
+//            // Player fails
+//            image_idx++
+//
+//            return false
+//        }
+//
+//        // win this round
+//        if(checkIfWin()){
+//            updateAnswer()
+//            updateDisplay()
+//            return true
+//        }
+//
+//    }
 
 
 

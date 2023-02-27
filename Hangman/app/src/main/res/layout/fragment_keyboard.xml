@@ -1,16 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context=".keyboardFragment">
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".keyboardFragment">-->
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:text="Hello" />-->
+
+
+
+<!--</FrameLayout>-->
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 添加子视图和约束 -->
+
+
+    <ScrollView
+        android:id = "@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <GridLayout
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="400dp"
-        android:text="Button" />
-</FrameLayout>
+        android:columnCount="7"
+        android:rowCount="5"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_a"
+            android:text="A"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1" />
+
+        <Button
+            android:id="@+id/btn_b"
+            android:text="B"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_c"
+            android:text="C"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+
+            />
+
+        <Button
+            android:id="@+id/btn_d"
+            android:text="D"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_e"
+            android:text="E"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_f"
+            android:text="F"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_g"
+            android:text="G"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_h"
+            android:text="H"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_i"
+            android:text="I"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_j"
+            android:text="J"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_k"
+            android:text="K"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_l"
+            android:text="L"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_m"
+            android:text="M"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_n"
+            android:text="N"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_o"
+            android:text="O"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_p"
+            android:text="P"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_q"
+            android:text="Q"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_r"
+            android:text="R"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_s"
+            android:text="S"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_t"
+            android:text="T"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_u"
+            android:text="U"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_v"
+            android:text="V"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_w"
+            android:text="W"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_x"
+            android:text="X"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_y"
+            android:text="Y"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/btn_z"
+            android:text="Z"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:id="@+id/hint"
+            android:text="Hint"
+            android:layout_columnWeight="3"
+            android:layout_rowWeight="1" />
+
+
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_delete"-->
+<!--            android:text="Delete"-->
+<!--            android:layout_columnSpan="2"-->
+<!--            android:layout_columnWeight="2"-->
+<!--            android:layout_rowWeight="1" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_space"-->
+<!--            android:text="Space"-->
+<!--            android:layout_columnSpan="3"-->
+<!--            android:layout_columnWeight="3"-->
+<!--            android:layout_rowWeight="1" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_done"-->
+<!--            android:text="Done"-->
+<!--            android:layout_columnSpan="2"-->
+<!--            android:layout_columnWeight="2"-->
+<!--            android:layout_rowWeight="1" />-->
+    </GridLayout>
+
+
+    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
