@@ -19,13 +19,14 @@ class animationFragment : Fragment() {
         fun newInstance() = animationFragment()
     }
 
-    private val animationViewModel: AnimationViewModel = ViewModelProvider(requireActivity()).get(AnimationViewModel::class.java)
+    private lateinit var animationViewModel: AnimationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         var view = inflater.inflate(R.layout.fragment_animation, container, false)
+        animationViewModel = ViewModelProvider(this).get(AnimationViewModel::class.java)
         var secret_word_view : TextView = view.findViewById<TextView>(R.id.secret_word_view)
 
         var hangman_image : ImageView = view.findViewById(R.id.hangman_image)
