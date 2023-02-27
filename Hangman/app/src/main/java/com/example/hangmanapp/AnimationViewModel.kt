@@ -2,7 +2,9 @@ package com.example.hangmanapp
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.ContentValues.TAG
 import android.content.res.Resources
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
@@ -13,18 +15,23 @@ import kotlin.coroutines.coroutineContext
 
 class AnimationViewModel() : ViewModel() {
 
-    private lateinit var answerArray: Array<String>
     // final answer for current round
     private var answer = ""
     // display of secret word
     private var display = ""
     // record correct letters that player has chosen
     private var correctLetters = mutableListOf<String>()
-    // iamge index
+    // image index
     private var image_idx : Int = 0
 
     val getImageIdx : Int
         get() = image_idx
+
+    val getDisplay : String
+        get() = display
+
+    val getAnswer : String
+        get() = answer
 
     fun updateAnswer(answerArray : Array<String>): String {
 
@@ -35,43 +42,11 @@ class AnimationViewModel() : ViewModel() {
     }
 
     /**
-     * supposed to get the letter from keyboard fragment
-     */
-//    fun inputLetter(input : String) : Boolean{
-//        var letter = input
-//
-//        // if player choose a correct letter, put it into 'correctLetter'
-//        // and refresh the display
-//        if(letter in answer.lowercase()){
-//            correctLetters.add(letter)
-//            updateDisplay()
-//
-//        }
-//        else{
-//            // wrong guess
-//
-//            // Player fails
-//            image_idx++
-//
-//            return false
-//        }
-//
-//        // win this round
-//        if(checkIfWin()){
-//            updateAnswer()
-//            updateDisplay()
-//            return true
-//        }
-//
-//    }
-
-
-
-
-    /**
      * update new display of the secret word
      */
     fun updateDisplay() {
+        // reset display
+        display = ""
         answer.forEach {
                 s -> display += (checkCorrection(s.toString()))
         }
@@ -87,6 +62,39 @@ class AnimationViewModel() : ViewModel() {
             false -> "_"
         }
     }
+
+    /**
+     * supposed to get the letter from keyboard fragment
+     */
+    fun newTry(input : String) : Boolean{
+        var letter : String = input.lowercase()
+
+        // if player choose a correct letter, put it into 'correctLetter'
+        // and refresh the display
+        if(letter in answer.lowercase()){
+            Log.i(TAG, "Right letter!!")
+            correctLetters.add(letter)
+            updateDisplay()
+            return true
+        }
+
+        // wrong guess
+        image_idx++
+        return false
+
+    }
+
+    /**
+     * Once the round is finished, no matter player wins or failed
+     * update to new question answer and its display
+     */
+    fun roundInit(answerArray : Array<String>) {
+        image_idx = 0
+        updateAnswer(answerArray)
+        updateDisplay()
+    }
+
+
 
     /**
      * Check if player win this round

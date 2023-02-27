@@ -1,0 +1,65 @@
+Index: app/src/main/java/com/example/hangmanapp/AnimationViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.hangmanapp\n\nimport android.annotation.SuppressLint\nimport android.app.Application\nimport android.content.res.Resources\nimport android.widget.Toast\nimport androidx.lifecycle.AndroidViewModel\nimport androidx.lifecycle.ViewModel\nimport androidx.lifecycle.viewModelScope\nimport com.google.android.material.snackbar.Snackbar\nimport java.util.*\nimport kotlin.coroutines.coroutineContext\n\nclass AnimationViewModel() : ViewModel() {\n\n    private lateinit var answerArray: Array<String>\n    // final answer for current round\n    private var answer = \"\"\n    // display of secret word\n    private var display = \"\"\n    // record correct letters that player has chosen\n    private var correctLetters = mutableListOf<String>()\n    // iamge index\n    private var image_idx : Int = 0\n\n    val getImageIdx : Int\n        get() = image_idx\n\n    fun updateAnswer(answerArray : Array<String>): String {\n\n        val idx = Random().nextInt(answerArray.size)\n        answer = answerArray[idx]\n\n        return answer\n    }\n\n    /**\n     * supposed to get the letter from keyboard fragment\n     */\n    fun inputLetter(input : String) : Boolean{\n        var letter = input\n\n        // if player choose a correct letter, put it into 'correctLetter'\n        // and refresh the display\n        if(letter in answer.lowercase()){\n            correctLetters.add(letter)\n            updateDisplay()\n\n        }\n        else{\n            // wrong guess\n\n            // Player fails\n            image_idx++\n\n            return false\n        }\n\n        // win this round\n        if(checkIfWin()){\n            updateAnswer()\n            updateDisplay()\n            return true\n        }\n\n    }\n\n\n\n\n    /**\n     * update new display of the secret word\n     */\n    fun updateDisplay() {\n        answer.forEach {\n                s -> display += (checkCorrection(s.toString()))\n        }\n    }\n\n    /**\n     * reveal all correctly guessed letter,\n     * cover the other letters\n     */\n    fun checkCorrection(s: String) : String {\n        return when (correctLetters.contains(s.lowercase())) {\n            true -> s\n            false -> \"_\"\n        }\n    }\n\n    /**\n     * Check if player win this round\n     */\n    fun checkIfWin() : Boolean {\n        answer.lowercase().forEach { a ->\n            if(!correctLetters.contains(a.toString())){\n                return false\n            }\n        }\n        return true\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/hangmanapp/AnimationViewModel.kt b/app/src/main/java/com/example/hangmanapp/AnimationViewModel.kt
+--- a/app/src/main/java/com/example/hangmanapp/AnimationViewModel.kt	(revision 48404543e50efeb75342f544af8bc8e8d692f6b7)
++++ b/app/src/main/java/com/example/hangmanapp/AnimationViewModel.kt	(date 1677386790409)
+@@ -26,6 +26,9 @@
+     val getImageIdx : Int
+         get() = image_idx
+ 
++    val getDisplay : String
++        get() = display
++
+     fun updateAnswer(answerArray : Array<String>): String {
+ 
+         val idx = Random().nextInt(answerArray.size)
+@@ -57,6 +60,9 @@
+         }
+ 
+         // win this round
++        /**
++         * if player won this round
++         */
+         if(checkIfWin()){
+             updateAnswer()
+             updateDisplay()
+Index: app/src/main/java/com/example/hangmanapp/animationFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.hangmanapp\n\nimport androidx.lifecycle.ViewModelProvider\nimport android.os.Bundle\nimport androidx.fragment.app.Fragment\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport android.widget.ImageView\nimport android.widget.TextView\nimport com.example.hangmanapp.databinding.FragmentAnimationBinding\n\nclass animationFragment : Fragment() {\n    private lateinit var binding: FragmentAnimationBinding\n    companion object {\n        fun newInstance() = animationFragment()\n    }\n\n    private val animationViewModel: AnimationViewModel = ViewModelProvider(requireActivity()).get(AnimationViewModel::class.java)\n\n    override fun onCreateView(\n        inflater: LayoutInflater, container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View? {\n        var view = inflater.inflate(R.layout.fragment_animation, container, false)\n        var secret_word_view : TextView = view.findViewById<TextView>(R.id.secret_word_view)\n\n        var hangman_image : ImageView = view.findViewById(R.id.hangman_image)\n\n        val image_idx = animationViewModel.getImageIdx\n\n        when (image_idx) {\n            1 -> hangman_image.setImageResource(R.drawable.hangman1)\n            2 -> hangman_image.setImageResource(R.drawable.hangman2)\n            3 -> hangman_image.setImageResource(R.drawable.hangman3)\n            4 -> hangman_image.setImageResource(R.drawable.hangman4)\n            5 -> hangman_image.setImageResource(R.drawable.hangman5)\n            6 -> hangman_image.setImageResource(R.drawable.hangman6)\n            7 -> hangman_image.setImageResource(R.drawable.hangman7)\n            8 -> hangman_image.setImageResource(R.drawable.hangman8)\n            9 -> hangman_image.setImageResource(R.drawable.hangman9)\n            10 -> {\n                hangman_image.setImageResource(R.drawable.hangman10)\n            }\n        }\n\n        return view\n    }\n\n    override fun onActivityCreated(savedInstanceState: Bundle?) {\n        super.onActivityCreated(savedInstanceState)\n        animationViewModel = ViewModelProvider(this).get(AnimationViewModel::class.java)\n\n    }\n\n    fun guess() {\n\n    }\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/hangmanapp/animationFragment.kt b/app/src/main/java/com/example/hangmanapp/animationFragment.kt
+--- a/app/src/main/java/com/example/hangmanapp/animationFragment.kt	(revision 48404543e50efeb75342f544af8bc8e8d692f6b7)
++++ b/app/src/main/java/com/example/hangmanapp/animationFragment.kt	(date 1677386790403)
+@@ -23,10 +23,14 @@
+         savedInstanceState: Bundle?
+     ): View? {
+         var view = inflater.inflate(R.layout.fragment_animation, container, false)
+-        var secret_word_view : TextView = view.findViewById<TextView>(R.id.secret_word_view)
++        var secret_word_view : TextView = view.findViewById(R.id.secret_word_view)
++
++        // set current display of secret word
++        secret_word_view.text = animationViewModel.getDisplay
+ 
+         var hangman_image : ImageView = view.findViewById(R.id.hangman_image)
+ 
++        // get current image index
+         val image_idx = animationViewModel.getImageIdx
+ 
+         when (image_idx) {
+@@ -49,7 +53,7 @@
+ 
+     override fun onActivityCreated(savedInstanceState: Bundle?) {
+         super.onActivityCreated(savedInstanceState)
+-        animationViewModel = ViewModelProvider(this).get(AnimationViewModel::class.java)
++//        animationViewModel = ViewModelProvider(this).get(AnimationViewModel::class.java)
+ 
+     }
+ 

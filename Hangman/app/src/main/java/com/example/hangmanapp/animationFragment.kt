@@ -1,8 +1,11 @@
 package com.example.hangmanapp
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.nfc.Tag
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +15,7 @@ import android.widget.TextView
 import com.example.hangmanapp.databinding.FragmentAnimationBinding
 import android.widget.Toast
 import androidx.fragment.app.setFragmentResultListener
+
 
 class animationFragment : Fragment() {
     private lateinit var binding: FragmentAnimationBinding
@@ -25,34 +29,66 @@ class animationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment_animation, container, false)
+        val view = inflater.inflate(R.layout.fragment_animation, container, false)
+
         animationViewModel = ViewModelProvider(this).get(AnimationViewModel::class.java)
-        var secret_word_view : TextView = view.findViewById<TextView>(R.id.secret_word_view)
 
-        var hangman_image : ImageView = view.findViewById(R.id.hangman_image)
+        val secret_word_view : TextView = view.findViewById(R.id.secret_word_view)
 
-        val image_idx = animationViewModel.getImageIdx
+        val hangman_image : ImageView = view.findViewById(R.id.hangman_image)
 
-        when (image_idx) {
-            1 -> hangman_image.setImageResource(R.drawable.hangman1)
-            2 -> hangman_image.setImageResource(R.drawable.hangman2)
-            3 -> hangman_image.setImageResource(R.drawable.hangman3)
-            4 -> hangman_image.setImageResource(R.drawable.hangman4)
-            5 -> hangman_image.setImageResource(R.drawable.hangman5)
-            6 -> hangman_image.setImageResource(R.drawable.hangman6)
-            7 -> hangman_image.setImageResource(R.drawable.hangman7)
-            8 -> hangman_image.setImageResource(R.drawable.hangman8)
-            9 -> hangman_image.setImageResource(R.drawable.hangman9)
-            10 -> {
-                hangman_image.setImageResource(R.drawable.hangman10)
-            }
-        }
+        val answerArray : Array<String> = resources.getStringArray(R.array.answerArray)
+
+        // initialize fragment
+        updateHangmanImage(animationViewModel.getImageIdx, hangman_image)
+
+        animationViewModel.updateAnswer(answerArray)
+        animationViewModel.updateDisplay()
+        secret_word_view.text = animationViewModel.getDisplay
 
         setFragmentResultListener("requestKey") { requestKey, bundle ->
             // We use a String here, but any type that can be put in a Bundle is supported
-            val result = bundle.getString("bundleKey")
-            // Do something with the result
-            Toast.makeText(activity, result, Toast.LENGTH_SHORT).show()
+            val playerInput : String = bundle.getString("bundleKey").toString()
+
+            val guessResult : Boolean = animationViewModel.newTry(playerInput)
+
+
+            Log.i(TAG, "[Answer] : "+animationViewModel.getAnswer)
+
+            if(guessResult){
+                animationViewModel.updateDisplay()
+                secret_word_view.text = animationViewModel.getDisplay
+
+                if (animationViewModel.checkIfWin()){
+                    Toast.makeText(activity, "Great Guess!", Toast.LENGTH_SHORT).show()
+
+                    animationViewModel.roundInit(answerArray)
+                    updateHangmanImage(animationViewModel.getImageIdx, hangman_image)
+                    secret_word_view.text = animationViewModel.getDisplay
+
+                    /**
+                     * round ended
+                     * need to inform keyboardFragment to reset all button
+                     */
+                }
+            }
+            else{
+
+                updateHangmanImage(animationViewModel.getImageIdx, hangman_image)
+                Log.i(TAG, "!!!! idx: "+animationViewModel.getImageIdx)
+                if (animationViewModel.getImageIdx == 10){
+                    Toast.makeText(activity, "You Failed!", Toast.LENGTH_SHORT).show()
+
+                    animationViewModel.roundInit(answerArray)
+                    updateHangmanImage(animationViewModel.getImageIdx, hangman_image)
+                    secret_word_view.text = animationViewModel.getDisplay
+                    /**
+                     * round ended
+                     * need to inform keyboardFragment to reset all button
+                     */
+                }
+            }
+
 
         }
 //        val view = inflater.inflate(R.layout.fragment_animation, container, false)
@@ -67,17 +103,8 @@ class animationFragment : Fragment() {
         return view
     }
 
-//        setFragmentResultListener("requestKey") { requestKey, bundle ->
-            // We use a String here, but any type that can be put in a Bundle is supported
-//            val result = bundle.getString("bundleKey")
-            // Do something with the result
-//        }
 
 
-
-//        return view
-
-//    @Deprecated("Deprecated in Java")
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -85,8 +112,22 @@ class animationFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    fun guess() {
-
+    fun updateHangmanImage(imageIdx : Int, hangman_image : ImageView){
+        when (imageIdx) {
+            0 -> hangman_image.setImageResource(R.drawable.hangman0)
+            1 -> hangman_image.setImageResource(R.drawable.hangman1)
+            2 -> hangman_image.setImageResource(R.drawable.hangman2)
+            3 -> hangman_image.setImageResource(R.drawable.hangman3)
+            4 -> hangman_image.setImageResource(R.drawable.hangman4)
+            5 -> hangman_image.setImageResource(R.drawable.hangman5)
+            6 -> hangman_image.setImageResource(R.drawable.hangman6)
+            7 -> hangman_image.setImageResource(R.drawable.hangman7)
+            8 -> hangman_image.setImageResource(R.drawable.hangman8)
+            9 -> hangman_image.setImageResource(R.drawable.hangman9)
+            10 -> {
+                hangman_image.setImageResource(R.drawable.hangman10)
+            }
+        }
     }
 
 }

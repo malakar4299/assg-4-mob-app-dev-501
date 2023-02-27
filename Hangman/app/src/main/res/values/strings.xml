@@ -3,14 +3,14 @@
     <string name="secret_word">guess</string>
 
     <string-array name="answerArray">
-        <item>Transistor</item>
+        <item>Orange</item>
         <item>Oligarchy</item>
         <item>Transylvania</item>
-        <item>Ostracism</item>
+        <item>Apple</item>
         <item>Feudalism</item>
         <item>Kotlin</item>
         <item>Happiness</item>
-        <item>Sadness</item>
+        <item>Android</item>
         <item>Monster</item>
         <item>Energy</item>
         <item>Drink</item>
