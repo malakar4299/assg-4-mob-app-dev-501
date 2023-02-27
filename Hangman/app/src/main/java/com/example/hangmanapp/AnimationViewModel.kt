@@ -23,6 +23,8 @@ class AnimationViewModel() : ViewModel() {
     private var correctLetters = mutableListOf<String>()
     // image index
     private var image_idx : Int = 0
+    // count of round
+    private var roundNum : Int = 0
 
     val getImageIdx : Int
         get() = image_idx
@@ -33,7 +35,12 @@ class AnimationViewModel() : ViewModel() {
     val getAnswer : String
         get() = answer
 
+    val getRoundNum : Int
+        get() = roundNum
+
     fun updateAnswer(answerArray : Array<String>): String {
+
+        roundNum += 1
 
         val idx = Random().nextInt(answerArray.size)
         answer = answerArray[idx]

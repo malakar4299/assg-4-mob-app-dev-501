@@ -42,8 +42,11 @@ class animationFragment : Fragment() {
         // initialize fragment
         updateHangmanImage(animationViewModel.getImageIdx, hangman_image)
 
-        animationViewModel.updateAnswer(answerArray)
-        animationViewModel.updateDisplay()
+        // if this is the first round, initialize the answer in previous
+        if(animationViewModel.getRoundNum == 0){
+            animationViewModel.updateAnswer(answerArray)
+            animationViewModel.updateDisplay()
+        }
         secret_word_view.text = animationViewModel.getDisplay
 
         setFragmentResultListener("requestKey") { requestKey, bundle ->
