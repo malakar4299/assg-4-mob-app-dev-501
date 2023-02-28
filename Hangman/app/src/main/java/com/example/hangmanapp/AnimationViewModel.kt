@@ -1,17 +1,8 @@
 package com.example.hangmanapp
 
-import android.annotation.SuppressLint
-import android.app.Application
 import android.content.ContentValues.TAG
-import android.content.res.Resources
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.android.material.snackbar.Snackbar
-import java.util.*
-import kotlin.coroutines.coroutineContext
 
 class AnimationViewModel() : ViewModel() {
 
@@ -29,6 +20,7 @@ class AnimationViewModel() : ViewModel() {
     val getImageIdx : Int
         get() = image_idx
 
+
     val getDisplay : String
         get() = display
 
@@ -38,15 +30,27 @@ class AnimationViewModel() : ViewModel() {
     val getRoundNum : Int
         get() = roundNum
 
-    fun updateAnswer(answerArray : Array<String>): String {
+    public fun setAnswer(ansStr : String): String {
+        correctLetters.clear()
+        image_idx = 0
+//        updateAnswer(answerArray)
+        updateDisplay()
 
         roundNum += 1
 
-        val idx = Random().nextInt(answerArray.size)
-        answer = answerArray[idx]
+//        answer = answerArray[idx]
+        answer = ansStr
+//        send
+        println("Received data")
 
         return answer
     }
+
+    public fun increases(){
+        image_idx++
+    }
+
+
 
     /**
      * update new display of the secret word
@@ -91,13 +95,20 @@ class AnimationViewModel() : ViewModel() {
 
     }
 
+    fun vaildateNotLetter(input: Char) : Boolean{
+        var letter : String = input.lowercase()
+
+        return letter !in answer.lowercase()
+
+    }
+
     /**
      * Once the round is finished, no matter player wins or failed
      * update to new question answer and its display
      */
     fun roundInit(answerArray : Array<String>) {
         image_idx = 0
-        updateAnswer(answerArray)
+//        updateAnswer(answerArray)
         updateDisplay()
     }
 
@@ -113,5 +124,15 @@ class AnimationViewModel() : ViewModel() {
             }
         }
         return true
+    }
+
+    fun killVowel() {
+        correctLetters.add('a'.toString())
+        correctLetters.add('e'.toString())
+        correctLetters.add('i'.toString())
+        correctLetters.add('o'.toString())
+        correctLetters.add('u'.toString())
+        updateDisplay()
+
     }
 }

@@ -3,18 +3,13 @@
     <string name="secret_word">guess</string>
 
     <string-array name="answerArray">
-        <item>Orange</item>
-        <item>Oligarchy</item>
-        <item>Transylvania</item>
-        <item>Apple</item>
-        <item>Feudalism</item>
-        <item>Kotlin</item>
-        <item>Happiness</item>
-        <item>Android</item>
-        <item>Monster</item>
-        <item>Energy</item>
-        <item>Drink</item>
-        <item>Coffee</item>
-        <item>Tea</item>
+        <item>Orange Fruit</item>
+        <item>Epic GameCompany</item>
+        <item>Minecraft Game</item>
+        <item>Apple ICTCompany</item>
+        <item>Coffee Drink</item>
+        <item>Android OperatingSystem</item>
+        <item>Kotlin ProgrammingLanguage</item>
+        <item>Celtic NBA</item>
     </string-array>
 </resources>

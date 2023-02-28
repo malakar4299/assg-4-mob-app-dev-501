@@ -15,7 +15,10 @@ import android.widget.GridLayout
 import android.widget.ScrollView
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
+
 import androidx.lifecycle.get
 
 class keyboardFragment : Fragment() {
@@ -26,6 +29,7 @@ class keyboardFragment : Fragment() {
         private const val Buttons_Key = "ABC"
         private var hintCount = 0
         private const val hintKey = "Hint"
+        private var hint: String = "NaN"
 
     }
     interface OnLetterClickListener {
@@ -113,7 +117,7 @@ class keyboardFragment : Fragment() {
                 if(savedInstanceState!=null){
                     var boools  = savedInstanceState.getBooleanArray(Buttons_Key)
                     if(buttons[i]!= null){
-                        buttons[i]?.isEnabled  = boools?.get(i) ?: true
+                        buttons[i]?.isVisible  = boools?.get(i) ?: true
 
                     }
                 }
@@ -126,12 +130,18 @@ class keyboardFragment : Fragment() {
             }
 //            println("chilid"child)
 
+
+//            var model = AnimationViewModel()
+//            model.updateAnswer("z")
+
             if (child is Button) {
                 child.setOnClickListener {
 //                    Toast.makeText(activity, "button   ${child.text}   clicked", Toast.LENGTH_SHORT).show()
                     SendMessage(buttons[i]?.text.toString())
                     println("button more   ")
-                    buttons[i]?.isEnabled = false
+//                    buttons[i]?.isEnabled = false
+                    buttons[i]?.isVisible = false
+
                 }
             }
 
@@ -165,6 +175,42 @@ class keyboardFragment : Fragment() {
             child.layoutParams = layoutParams
         }
 
+
+        setFragmentResultListener("Hints") { requestKey, bundle ->
+
+        hint = bundle.getString("Hints").toString()
+
+        }
+
+
+
+        setFragmentResultListener("VowelKill") { requestKey, bundle ->
+            buttons[0]?.isVisible = false
+            buttons[4]?.isVisible = false
+            buttons[8]?.isVisible = false
+            buttons[14]?.isVisible = false
+            buttons[20]?.isVisible = false
+
+        }
+
+        setFragmentResultListener("HalfResult"){requestKey, bundle ->
+
+            var booool = bundle.getBooleanArray("HalfResult")
+
+            for (i in 0 until gridLayout.childCount) {
+                buttons[i] = gridLayout.getChildAt(i) as Button
+                if (buttons[i] is Button) {
+                    if (buttons[i] != null) {
+                        buttons[i]?.isVisible = booool?.get(i) ?: true
+
+                    }
+                }
+
+            }
+        }
+
+
+
         var hintButton = view.findViewById<Button>(R.id.hint)
 
 //        hintButton.layoutParams.width = cellWidth*2
@@ -177,15 +223,32 @@ class keyboardFragment : Fragment() {
             hint()
         }
 
-        val child = gridLayout.getChildAt(0)
-//            println("chilid"child)
+        setFragmentResultListener("End") { requestKey, bundle ->
 
-        if (child is Button) {
-            child.setOnClickListener {
-//                Toast.makeText(activity, "按钮${child.text}被点击了", Toast.LENGTH_SHORT).show()
+            println("One turn finished Known!")
+            for (button in buttons){
+                if (button != null) {
+                    button.isEnabled = false
+                }
+            }
+            hintButton.isEnabled=true
+
+
+            hintButton.setOnClickListener {
                 reSet()
+                setFragmentResult("Restart", bundleOf("Restart" to "good luck"))
+
             }
         }
+//        val child = gridLayout.getChildAt(0)
+////            println("chilid"child)
+//
+//        if (child is Button) {
+//            child.setOnClickListener {
+////                Toast.makeText(activity, "按钮${child.text}被点击了", Toast.LENGTH_SHORT).show()
+//                reSet()
+//            }
+//        }
 
         // 返回视图对象
         return view
@@ -193,8 +256,23 @@ class keyboardFragment : Fragment() {
 
     private fun hint() {
         println("Try to get hint here")
-        Toast.makeText(activity,"Do you want a hint?  Times $hintCount",Toast.LENGTH_SHORT).show()
+//        reSet()
+//        Toast.makeText(activity,"Do you want a hint?  Times $hintCount",Toast.LENGTH_SHORT).show()
+
+        when(hintCount){
+            0 ->     Toast.makeText(activity,"Hint: $hint",Toast.LENGTH_SHORT).show()
+            1 ->     setFragmentResult("HintHalf", bundleOf("HintHalf" to getButtonVisi()))
+            2 ->     setFragmentResult("HintVowel", bundleOf("HintVowel" to "go"))
+
+
+            else ->   Toast.makeText(activity, "Watch out not become a corpus", Toast.LENGTH_SHORT).show()
+
+
+
+
+        }
         hintCount++
+
 
 
 
@@ -205,10 +283,6 @@ class keyboardFragment : Fragment() {
 //        handleButtonClick(view)
 //    }
 
-    private fun handleButtonClick(but: View) {
-
-
-    }
 
 
     fun SendMessage(char: String){
@@ -229,6 +303,7 @@ class keyboardFragment : Fragment() {
     public fun reSet(){
         for (button in buttons){
             if (button != null) {
+                button.isVisible = true
                 button.isEnabled = true
             }
         }
@@ -238,24 +313,30 @@ class keyboardFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         println("Try to save")
-        val booleanArray =  BooleanArray(32)
-        var ind = 0
-        if(buttons != null){
-            for (but in buttons){
-                if (but != null) {
-                    booleanArray[ind] = but.isEnabled
-                }
-                ind++
 
-
-            }
-        }
-        outState.putBooleanArray(Buttons_Key,booleanArray)
+        outState.putBooleanArray(Buttons_Key,getButtonVisi())
         outState.putInt(hintKey, hintCount)
 
-        print("saved ")
+        print("button visibility saved ")
 
 
+    }
+
+
+
+
+    public fun getButtonVisi() :BooleanArray{
+        val booleanArray =  BooleanArray(27)
+
+        var ind = 0
+        for (but in buttons){
+            if (but != null) {
+                booleanArray[ind] = but.isVisible
+            }
+            ind++
+        }
+
+        return booleanArray
     }
 
 
