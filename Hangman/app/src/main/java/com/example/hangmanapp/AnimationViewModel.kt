@@ -11,11 +11,12 @@ class AnimationViewModel() : ViewModel() {
     // display of secret word
     private var display = ""
     // record correct letters that player has chosen
-    private var correctLetters = mutableListOf<String>()
+    public var correctLetters = mutableListOf<String>()
     // image index
     private var image_idx : Int = 0
     // count of round
     private var roundNum : Int = 0
+
 
     val getImageIdx : Int
         get() = image_idx
@@ -30,7 +31,7 @@ class AnimationViewModel() : ViewModel() {
     val getRoundNum : Int
         get() = roundNum
 
-    public fun setAnswer(ansStr : String): String {
+    fun setAnswer(ansStr : String): String {
         correctLetters.clear()
         image_idx = 0
 //        updateAnswer(answerArray)

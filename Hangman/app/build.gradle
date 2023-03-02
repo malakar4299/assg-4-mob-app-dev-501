@@ -53,8 +53,16 @@ dependencies {
     implementation 'androidx.core:core-ktx:+'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.activity:activity-ktx:1.4.0'
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01'
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    testImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation "com.google.truth:truth:1.0.1"
+    testImplementation 'org.robolectric:robolectric:4.9'
+
 }
