@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="boggle">#f1f8e9</color>
+    <color name="green_l">#32a852</color>
+    <color name="red">#DC143C</color>
+    <color name="app_bar">#a8ada3</color>
+    <color name="score_frag">#2D3037</color>
 </resources>
