@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Hangman App</string>
+    <string name="secret_word">guess</string>
+
+    <string-array name="answerArray">
+        <item>Orange Fruit</item>
+        <item>Epic GameCompany</item>
+        <item>Minecraft Game</item>
+        <item>Apple ICTCompany</item>
+        <item>Coffee Drink</item>
+        <item>Android OperatingSystem</item>
+        <item>Kotlin ProgrammingLanguage</item>
+        <item>Celtic NBA</item>
+    </string-array>
 </resources>
