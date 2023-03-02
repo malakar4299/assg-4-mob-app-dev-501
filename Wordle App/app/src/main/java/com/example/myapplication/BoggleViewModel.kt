@@ -21,4 +21,6 @@ class BoggleViewModel: ViewModel()  {
     fun emptyList(){
         wordIndex= mutableListOf<Int>();
     }
+
+
 }
